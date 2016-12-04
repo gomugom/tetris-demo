@@ -24,6 +24,13 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: URL
     },
+    module: {
+        loaders: [{
+            test: /\.scss$/,
+            include: [ _PATH ],
+            loaders: ['style', 'css?sourceMap!sass']
+        }]
+    },
     resolve: {
         root: [ _PATH ],
         extensions: [ '', '.js' ]
