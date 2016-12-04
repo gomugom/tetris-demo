@@ -1,28 +1,75 @@
 const generateBlocksHTML = require('./templates/generateBlocksHTML');
+const nextBlock = require('./templates/generateNextBlockHTML');
 const CONST = require('./constants/CONST');
 const Block = require('./Block');
+const { getTime } = require('./util');
 require('tetris.scss');
 
 class Game {
     constructor() {
         this.dom = {
-            main: document.getElementById('main')
+            main: document.getElementById('main'),
+            score: document.getElementById('score'),
+            count: document.getElementById('count'),
+            time: document.getElementById('time'),
+            next: document.getElementById('next')
         }
-        this.tick = null;
+        this.keyEventHandler = this.keyEventHandler.bind(this);
+        this.renderPlayTime = this.renderPlayTime.bind(this);
+        this.startGame();
+    }
+
+    initGame() {
         this.speed = 1;
-        this.block = 0;
+        this.score = 0;
+        this.count = 0;
+        this.time = 0;
+        this.tick = null;
+        this.playTimer = null;
         this.frame = CONST.DEFAULT_BLOCKS.map(row=>[...row]);
         this.dom.main.innerHTML = generateBlocksHTML(this.frame);
+        this.dom.next.innerHTML = nextBlock(0);
+        this.dom.time.innerText = getTime(this.time);
+        this.dom.score.innerText = this.score;
+        this.dom.count.innerText = this.count;
+    }
+
+    startGame() {
+        this.initGame();
+        this.nextBlockIndex = Math.ceil(Math.random() * CONST.BLOCK_TYPES);
         this.addNewBlock();
-
-        this.keyEventHandler = this.keyEventHandler.bind(this);
-
+        this.playTimer = setInterval(this.renderPlayTime, 1000);
         window.addEventListener('keydown', this.keyEventHandler, true);
+    }
+
+    endGame() {
+        window.removeEventListener('keydown', this.keyEventHandler, true);
+        this.block = null;
+        clearInterval(this.tick);
+        clearInterval(this.playTimer);
+
+        alert('Your Score is ' + this.score);
+        const restart = confirm('game over! TRY AGAIN?');
+        if(restart) this.startGame();
     }
 
     renderMain() {
         this.addBlockToArray();
         this.dom.main.innerHTML = generateBlocksHTML(this.frame);
+    }
+
+    renderPlayTime() {
+        this.dom.time.innerText = getTime(++this.time);
+    }
+
+    renderScore() {
+        this.speed = Math.ceil((this.count || 1) / 10);
+        this.dom.count.innerText = this.count;
+        this.dom.score.innerText = this.score;
+    }
+
+    renderNext() {
+        this.dom.next.innerHTML = nextBlock(this.nextBlockIndex);
     }
 
     keyEventHandler(e) {
@@ -61,6 +108,9 @@ class Game {
             }
             return true;
         });
+        this.score += CONST.SCORE_POINT[completedRowsLength];
+        this.count += completedRowsLength;
+        this.renderScore();
         this.frame = [
             ...CONST.GET_DEFAULT_HIDDEN_ROWS(),
             ...uncompletedRowsArray.slice(CONST.HIDDEN_ROW - completedRowsLength)
@@ -76,18 +126,13 @@ class Game {
         this.addNewBlock();
     }
 
-    endGame() {
-        window.removeEventListener('keydown', this.keyEventHandler, true);
-        clearInterval(this.tick);
-        alert('game over');
-    }
-
     addNewBlock() {
         clearInterval(this.tick);
         this.tick = setInterval(this.moveDown.bind(this), 1000);
-        const nextBlockIndex = Math.ceil(Math.random()* CONST.BLOCK_TYPES);
-        this.block = new Block(nextBlockIndex);
+        this.block = new Block(this.nextBlockIndex);
+        this.nextBlockIndex = Math.ceil(Math.random() * CONST.BLOCK_TYPES);
         this.renderMain();
+        this.renderNext();
     }
 
     removeBlockFromArray() {
