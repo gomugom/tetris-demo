@@ -35,7 +35,7 @@ class Game {
 
     transfer(key) {
         this.removeBlockFromArray();
-        this.block.transfer(key);
+        this.block.transfer(key, this.frame);
         this.renderMain();
     }
 

@@ -20,21 +20,39 @@ class Block {
         ]);
     }
 
-    rotate() {
-        this.info.rotate = (this.info.rotate + 1) % 4;
+    checkAvailability(frame) {
+        return this.pos.every(([x, y])=>
+            x >= 0 &&
+            x < CONST.COL &&
+            y >= 0 &&
+            y < CONST.ROW + CONST.HIDDEN_ROW &&
+            frame[y][x] === 0
+        )
+    }
+
+    rotate(dir = 'cw') {
+        this.info.rotate = (this.info.rotate + (dir === 'cw' ? 1 : 3)) % 4;
         this.setPos(0, 0);
     }
 
-    transfer(dir) {
+    transfer(dir, frame) {
         let pos = [];
         switch(dir) {
-            case 'up': this.rotate('cw'); return;
+            case 'up': {
+                this.rotate('cw');
+                if(!this.checkAvailability(frame)) this.rotate('ccw');
+                return;
+            }
             case 'left': pos = [-1, 0]; break;
             case 'right': pos = [1, 0]; break;
             case 'down': pos = [0, 1]; break;
             default: return;
         }
         this.setPos(...pos);
+        const isAvailable = this.checkAvailability(frame);
+        if(!isAvailable) {
+            this.setPos(...pos.map(v=> v*-1));
+        }
     }
 }
 
