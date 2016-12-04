@@ -15,7 +15,9 @@ class Game {
         this.dom.main.innerHTML = generateBlocksHTML(this.frame);
         this.addNewBlock();
 
-        window.addEventListener('keydown', this.keyEventHandler.bind(this), true);
+        this.keyEventHandler = this.keyEventHandler.bind(this);
+
+        window.addEventListener('keydown', this.keyEventHandler, true);
     }
 
     renderMain() {
@@ -63,7 +65,21 @@ class Game {
             ...CONST.GET_DEFAULT_HIDDEN_ROWS(),
             ...uncompletedRowsArray.slice(CONST.HIDDEN_ROW - completedRowsLength)
         ];
+        if(this.block.pos.some(([x, y]) =>
+            y <= CONST.HIDDEN_ROW
+            && x >= 3
+            && x <= 6
+        )) {
+            this.endGame();
+            return;
+        }
         this.addNewBlock();
+    }
+
+    endGame() {
+        window.removeEventListener('keydown', this.keyEventHandler, true);
+        clearInterval(this.tick);
+        alert('game over');
     }
 
     addNewBlock() {
