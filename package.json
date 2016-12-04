@@ -1,0 +1,24 @@
+{
+  "name": "es6-tetris",
+  "author": "gomugom",
+  "description": "ES6 Tetris",
+  "license": "MIT",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gomugom/tetris-demo"
+  },
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "devDependencies": {
+    "classnames": "^2.2.5",
+    "css-loader": "^0.25.0",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-middleware": "^1.7.0",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-hot-middleware": "^2.12.2"
+  }
+}
