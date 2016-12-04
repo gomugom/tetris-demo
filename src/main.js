@@ -45,7 +45,23 @@ class Game {
         this.removeBlockFromArray();
         const isFinished = this.block.transfer('down', this.frame);
         this.renderMain();
-        if(isFinished) this.addNewBlock();
+        if(isFinished) this.moveEnd();
+    }
+
+    moveEnd() {
+        let completedRowsLength = 0;
+        const uncompletedRowsArray = this.frame.filter((row, i)=> {
+            if(row.every(col => col > 0)) {
+                completedRowsLength += 1;
+                return false;
+            }
+            return true;
+        });
+        this.frame = [
+            ...CONST.GET_DEFAULT_HIDDEN_ROWS(),
+            ...uncompletedRowsArray.slice(CONST.HIDDEN_ROW - completedRowsLength)
+        ];
+        this.addNewBlock();
     }
 
     addNewBlock() {

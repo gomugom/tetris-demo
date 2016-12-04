@@ -7,7 +7,7 @@ class Block {
             type,
             rotate : 0,
             shape: BLOCK_TYPES[type],
-            offset: [ Math.floor(CONST.COL / 2) - 1, CONST.HIDDEN_ROW - 1 ]
+            offset: [ Math.floor(CONST.COL / 2) - 1, CONST.HIDDEN_ROW - 2 ]
         };
         this.setPos(0, 0);
     }

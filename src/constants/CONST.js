@@ -15,10 +15,10 @@ const INITIAL_DURATION = 1000;
 const DECREASE_DURATION_FACTOR = 4.5;
 const BLOCK_TYPES = 7;
 
-const DEFAULT_BLOCKS = [...'0'.repeat(ROW + HIDDEN_ROW)].map(()=>
-    new Array(COL).fill(0)
-);
+const getEmptyArray = rows => [...'0'.repeat(rows)].map(()=> new Array(COL).fill(0));
 
+const GET_DEFAULT_HIDDEN_ROWS = ()=> getEmptyArray(HIDDEN_ROW);
+const DEFAULT_BLOCKS = getEmptyArray(ROW + HIDDEN_ROW);
 
 const CONST = {
     KEYBOARD_NAME,
@@ -29,6 +29,7 @@ const CONST = {
     INITIAL_DURATION,
     DECREASE_DURATION_FACTOR,
     BLOCK_TYPES,
+    GET_DEFAULT_HIDDEN_ROWS,
     DEFAULT_BLOCKS
 }
 
