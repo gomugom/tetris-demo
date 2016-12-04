@@ -52,6 +52,7 @@ class Block {
         const isAvailable = this.checkAvailability(frame);
         if(!isAvailable) {
             this.setPos(...pos.map(v=> v*-1));
+            if(dir === 'down') return true;
         }
     }
 }

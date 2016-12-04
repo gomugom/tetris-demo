@@ -25,6 +25,8 @@ class Game {
         const key = CONST.KEYBOARD_NAME[e.keyCode];
         switch(key) {
             case 'down':
+                this.moveDown();
+                return;
             case 'left':
             case 'right':
             case 'up':
@@ -37,6 +39,13 @@ class Game {
         this.removeBlockFromArray();
         this.block.transfer(key, this.frame);
         this.renderMain();
+    }
+
+    moveDown() {
+        this.removeBlockFromArray();
+        const isFinished = this.block.transfer('down', this.frame);
+        this.renderMain();
+        if(isFinished) this.addNewBlock();
     }
 
     addNewBlock() {
