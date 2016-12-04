@@ -8,6 +8,8 @@ class Game {
         this.dom = {
             main: document.getElementById('main')
         }
+        this.tick = null;
+        this.speed = 1;
         this.block = 0;
         this.frame = CONST.DEFAULT_BLOCKS.map(row=>[...row]);
         this.dom.main.innerHTML = generateBlocksHTML(this.frame);
@@ -65,6 +67,8 @@ class Game {
     }
 
     addNewBlock() {
+        clearInterval(this.tick);
+        this.tick = setInterval(this.moveDown.bind(this), 1000);
         const nextBlockIndex = Math.ceil(Math.random()* CONST.BLOCK_TYPES);
         this.block = new Block(nextBlockIndex);
         this.renderMain();
