@@ -1,0 +1,172 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+body {
+  overflow: hidden;
+}
+
+#root {
+  position: absolute;
+  width: 470px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#main {
+  margin: 0 auto;
+  width: 250px;
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+
+#left, #right {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  > h3 {
+    margin: 0 0 5px;
+    color: #888;
+  }
+  > div {
+    height: 40px;
+    margin-bottom: 15px;
+    color: #fff;
+    line-height: 40px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+}
+
+#left {
+  left: 0;
+  width: 100px;
+
+  #score {
+    background-color: #5cc;
+  }
+
+  #count {
+    background-color: #d55;
+  }
+
+  #time {
+    background-color: #a5d;
+  }
+}
+
+#right {
+  right: 0;
+  width: 100px;
+
+  #next {
+    width: 100px;
+    height: 100px;
+    opacity: .3;
+  }
+}
+
+.tetris {
+  &__grid {
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
+  &__col {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border: 1px solid #fff;
+    background-color: #eee;
+    &.hidden { display: none; }
+    &.type1 { background-color: #a6a; }
+    &.type2 { background-color: #d96; }
+    &.type3 { background-color: #cc5; }
+    &.type4 { background-color: #8d4; }
+    &.type5 { background-color: #d55; }
+    &.type6 { background-color: #66c; }
+    &.type7 { background-color: #5cc; }
+    &.type8 { background-color: #789; }
+    &.type9 { background-color: #987; }
+  }
+}
+
+
+
+.modal-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 100;
+}
+
+.modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px 20px 60px;
+  text-align: center;
+  border-radius: 10px;
+
+  h3 {
+    font-size: 25px;
+    margin: 0 0 0.5em;
+  }
+
+  button {
+    padding: 0 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    height: 40px;
+  }
+  &--home {
+    width: 300px;
+    height: 180px;
+    line-height: 35px;
+    text-align: center;
+  }
+
+  &--score {
+    width: 400px;
+    height: 450px;
+
+    table {
+      table-layout: fixed;
+      border-collapse: collapse;
+      width: 100%;
+      thead th {
+        border-bottom: 1px solid #ccc;
+      }
+      td {
+        padding: 4px 7px;
+      }
+      input {
+        width: 70px;
+      }
+    }
+
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    padding: 5px 10px 15px;
+    width: 100%;
+    text-align: center;
+  }
+}
